@@ -1,0 +1,49 @@
+Dynamic Module-Assistant Kernel Module Support
+==============================================
+This framework is designed to automate the installation of kernel modules
+with module-assistant (aka m-a) when upgrading or installing new Linux kernels.
+
+Before activating Dynamic Module-Assistant Kernel Module Support, first use
+module-assistant to install the desired kernel module(s) for the currently
+running Linux kernel. For more information on module-assitant please its manual
+page (hint: type 'man m-a' in a shell). Then add the name of the
+module-assistant compatible package to /etc/default/dmakms, so that the process
+of preparing and installing the same module(s) for each new Linux kernel can
+be automated.
+
+For example, to install the ndiswrapper module with module-assistant:
+  m-a prepare
+  m-a auto-install ndiswrapper-source
+
+After making sure the ndiswrapper module is working as it should, you may then
+activate Dynamic Module-Assistant Kernel Module Support for ndiswrapper, so
+that the next time the Linux kernel is updated a ndiswrapper module is prepared
+for it too, without manual intervention. To do that, add 'ndiswrapper-source'
+to the /etc/default/dmakms configuration file.
+
+Repeat the same process for any other module-assistant compatible kernel module
+package.
+
+A linux-headers package must be installed for every linux-image package for
+module-assistant to compile kernel modules.
+
+How It Works
+============
+Dynamic Module-Assistant Kernel Module Support consists of a single initscript
+(/etc/init.d/dmakms) that is executed at boot time or by a script that is
+triggered after installation of new linux-image Debian packages.
+
+On each boot, /etc/init.d/dmakms is run to discover if each module source
+package listed in /etc/default/dmakms has provided a module package for the
+running Linux kernel, calling module-assistant to build and install a module
+package as required.
+
+When a new linux-image Debian package is installed, /etc/init.d/dmakms is
+executed via a postinst hook script with two arguments, 'start' and the version
+string of the Linux kernel to prepare new module package(s) for. At this time,
+the module packages listed in the /etc/default/dmakms configuration file are
+processed with module-assitant, and derived module packages are scheduled for
+installation at shutdown time [0].
+
+[0] It is necessary to delay the installation until such a time that apt/dpkg
+are not locked by another process.

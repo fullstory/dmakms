@@ -1,0 +1,13 @@
+Source: dmakms
+Section: misc
+Priority: optional
+Maintainer: Kel Modderman <kel@otaku42.de>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.0
+
+Package: dmakms
+Architecture: all
+Depends: module-assistant, build-essential, bzip2
+Description: Dynamic Module-Assistant Kernel Module Support
+ This package provides a framework for automatically installing kernel modules
+ with module-assistant after each Linux kernel upgrade.

@@ -1,0 +1,222 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          dmakms
+# Required-Start:    $local_fs
+# Required-Stop:     $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 6
+# Short-Description: Dynamic Module-Assistant Kernel Module Support
+### END INIT INFO
+
+#
+# Copyright (c) 2008, Kel Modderman <kel@0taku42.de>
+#
+# An alternative to DKMS <http://linux.dell.com/projects.shtml#dkms>
+# Inspired by discussion at #299727 <http://bugs.debian.org/299727>
+#
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+NAME="dmakms"
+DESC="Dynamic Module-Assistant Kernel Module Support"
+
+MODULES="$(grep -s '^[^#]' /etc/default/${NAME})"
+if [ -z "${MODULES}" ]; then
+	exit 0
+fi
+
+. /lib/lsb/init-functions
+
+dmakms_check_installed()
+{
+	local query
+	local modvers
+	local pkgvers
+
+	query="$(dpkg-query -f '${Status}\n' -W ${1} 2>/dev/null)"
+
+	case "${query}" in
+		*\ ok\ installed)
+			;;
+		*)
+			return 1
+			;;
+	esac
+
+	query="$(dpkg-query -f '${Status}\n' -W ${2}\*${KVER} 2>/dev/null)"
+
+	case "${query}" in
+		*\ ok\ installed)
+			;;
+		*)
+			return 2
+			;;
+	esac
+
+	pkgvers="$(dpkg-query -f '${Version}\n' -W ${1}          2>/dev/null)"
+	modvers="$(dpkg-query -f '${Version}\n' -W ${2}\*${KVER} 2>/dev/null)"
+
+	case "${modvers}" in
+		2\.6\.[0-9]*\.rev[0-9]*+*)
+			# debian-kernel
+			modvers="${modvers#*+}"
+			;;
+		*)
+			# modass version
+			modvers="${modvers%%+*}"
+			;;
+	esac
+
+	pkgvers="${pkgvers#*:}"
+	modvers="${modvers#*:}"
+
+	if dpkg --compare-versions "${pkgvers}" gt "${modvers}"; then
+		return 3
+	else
+		return 0
+	fi
+}
+
+dmakms_ma_build()
+{
+	# build only
+	m-a --text-mode --non-inter -l "${KVER}" \
+		clean,build,clean "${1}" >/dev/null 2>&1
+}
+
+dmakms_ma_install()
+{
+	# install only
+	m-a --text-mode --non-inter -l "${KVER}" \
+		install "${1}" >/dev/null 2>&1
+}
+
+dmakms_ma_autoinstall()
+{
+	# build and install
+	m-a --text-mode --non-inter -l "${KVER}" \
+		clean,build,install,clean "${1}" >/dev/null 2>&1
+}
+
+if which udevadm >/dev/null; then
+	dmakms_udev_trigger()
+	{
+		udevadm trigger
+	}
+elif which udevtrigger >/dev/null; then
+	dmakms_udev_trigger()
+	{
+		udevtrigger
+	}
+else
+	dmakms_udev_trigger()
+	{
+		:
+	}
+fi
+
+case "${1}" in
+	start)
+		if [ "${#}" -eq 2 ]; then
+			# triggered by /etc/kernel/postinst.d/ script
+			KVER="${2}"
+		else
+			KVER="$(uname -r)"
+		fi
+
+		log_action_msg "Starting ${DESC}"
+
+		if [ ! -e /lib/modules/${KVER}/build ]; then
+			log_failure_msg "Failed to locate linux-headers-${KVER}..."
+			exit 0
+		fi
+
+		for mod in ${MODULES}; do
+			module="${mod%%-source}"
+
+			dmakms_check_installed "${mod}" "${module}"
+			case "${?}" in
+				0)
+					# module-source installed, kernel module installed and up-to-date
+					continue
+					;;
+				1)
+					# module-source NOT installed
+					log_warning_msg "Skipping ${mod}, package not installed..."
+					continue
+					;;
+				2)
+					# module-source installed, kernel module NOT installed
+					;;
+				3)
+					# module-source installed, kernel module installed and NOT up-to-date
+					;;
+				*)
+					# unknow return value
+					log_warning_msg "Skipping ${mod}, dmakms_check_installed failed..."
+					continue
+					;;
+			esac
+
+			log_action_begin_msg "Preparing ${module} module for ${KVER}, please wait"
+
+			if [ "${#}" -eq 2 ]; then
+				# cannot install now, as dpkg/apt may be locked
+				dmakms_ma_build "${mod}"
+			else
+				dmakms_ma_autoinstall "${mod}"
+			fi
+
+			if [ "${?}" -ne 0 ]; then
+				log_action_end_msg 1
+				log_failure_msg "Module-assistant failed to build/install ${module}..."
+				continue
+			fi
+
+			if [ "${#}" -eq 2 ]; then
+				# schedule installation for shutdown/reboot
+				mkdir -p /var/run/${NAME}/${KVER}
+			else
+				dmakms_udev_trigger
+			fi
+
+			log_action_end_msg 0
+		done
+		;;
+	stop)
+		[ -d /var/run/${NAME} ] || exit 0
+
+		# Process installation of new kernel module packages built via
+		# /etc/kernel/postinst.d/ script.
+		log_action_msg "Stopping ${DESC}"
+
+		for kvers in /var/run/${NAME}/*; do
+			[ -d "${kvers}" ] || continue
+
+			KVER="${kvers##*/}"
+			if [ ! -d /lib/modules/${KVER} ]; then
+				continue
+			fi
+
+			for mod in ${MODULES}; do
+				module="${mod%%-source}"
+
+				log_action_begin_msg "Installing ${module} module for ${KVER}, please wait"
+				dmakms_ma_install "${mod}"
+				log_action_end_msg "${?}"
+			done
+		done
+
+		find /var/run/${NAME} -delete
+		;;
+	restart|force-reload)
+		echo "Error: argument '${1}' not supported" >&2
+		exit 3
+		;;
+	*)
+		echo "Usage: ${NAME} {start|stop}" >&2
+		exit 3
+		;;
+esac
+
+:

@@ -1,0 +1,4 @@
+# Add one or more names of module-assistant compatible kernel module source
+# packages to this file, and they will be processed by module-assistant
+# automatically when upgrading or booting a Linux kernel lacking a module
+# package derived from them.

@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+build:
+	dh $@
+
+clean:
+	dh $@
+
+install: build
+	dh $@ --before dh_installinit
+	dh_installinit --no-start -- start 05 2 3 4 5 . stop 05 0 6 .
+	# May as well install this now too...
+	install --mode=755 -D debian/dmakms_kernel_postinst \
+		debian/dmakms/etc/kernel/postinst.d/dmakms
+	dh $@ --after dh_installinit
+
+binary-indep: install
+	dh $@
+
+binary-arch: install
+	#dh $@
+
+binary: binary-indep binary-arch

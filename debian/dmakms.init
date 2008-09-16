@@ -94,7 +94,7 @@ dmakms_ma_install()
 dmakms_ma_autoinstall()
 {
 	# build and install
-	m-a --text-mode --non-inter -l "${KVER}" \
+	m-a --text-mode --non-inter -f -l "${KVER}" \
 		clean,build,install,clean "${1}" >/dev/null 2>&1
 }
 

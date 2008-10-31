@@ -2,7 +2,7 @@
 
 ### BEGIN INIT INFO
 # Provides:          dmakms
-# Required-Start:    $local_fs
+# Required-Start:    $remote_fs
 # Required-Stop:     $remote_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 6

@@ -1,9 +1,5 @@
-dmakms (0.6.1) UNRELEASED; urgency=low
+dmakms (0.6.1) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Kel Modderman ]
   * Required-Start should depend on $remote_fs, not $local_fs, we require
     /usr/.
 

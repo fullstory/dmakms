@@ -1,9 +1,8 @@
-dmakms (0.6.2) UNRELEASED; urgency=low
+dmakms (0.6.2) unstable; urgency=low
 
-  * NOT RELEASED YET
   * make lintian happy and depend on ${misc:Depends}.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Dec 2008 02:35:45 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 08 Dec 2008 21:27:31 +0100
 
 dmakms (0.6.1) unstable; urgency=low
 

@@ -1,9 +1,5 @@
-dmakms (0.6.3) UNRELEASED; urgency=low
+dmakms (0.6.3) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Kel Modderman ]
   * Flag dmakms as an interactive script for dependency based boot.
     Install /etc/insserv.conf.d/dmakms.
 

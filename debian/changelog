@@ -1,8 +1,9 @@
-dmakms (0.6.4) UNRELEASED; urgency=low
+dmakms (0.6.4) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * bump standards version to 3.8.2, no changes necessary.
+  * add Vcs-Svn/ Vcs-Browser to debian/control.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 04 Jan 2009 18:01:29 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 07 Aug 2009 22:14:57 +0200
 
 dmakms (0.6.3) unstable; urgency=low
 

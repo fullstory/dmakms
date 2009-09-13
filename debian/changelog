@@ -1,16 +1,9 @@
-dmakms (0.6.5+nmu1) UNRELEASED; urgency=low
+dmakms (0.6.5) unstable; urgency=low
 
-  * Non-maintainer upload.
   * it was (re)compiling the module on every boot when the legacy module
     was installed and deinstalled. (Thanks to Gen) 
 
  -- Joaquim Boura <x-un-i@sidux.com>  Sun, 13 Sep 2009 22:50:01 +0200
-
-dmakms (0.6.5) UNRELEASED; urgency=low
-
-  * NOT RELEASED YET
-
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 07 Aug 2009 22:18:27 +0200
 
 dmakms (0.6.4) unstable; urgency=low
 

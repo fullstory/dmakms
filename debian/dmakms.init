@@ -43,7 +43,7 @@ dmakms_check_installed()
 			;;
 	esac
 
-	query="$(dpkg-query -f '${Status}\n' -W ${2}\*${KVER} 2>/dev/null)"
+	query="$(dpkg-query -f '${Status}\n' -W ${2}\-${KVER} 2>/dev/null)"
 
 	case "${query}" in
 		*\ ok\ installed)

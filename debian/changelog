@@ -1,8 +1,17 @@
 dmakms (0.6.6) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  DO NOT RELEASE - UNTESTED
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 13 Sep 2009 22:55:08 +0200
+  * Remove special handling for backwards Debian conglomerate module package
+    versioning - the conglomerate packages no longer exist.
+  * Remove backwards compat for old udev versions.
+  * Do not strip epoch's from package versions.
+  * Revert patch from previous package revision - replacing a wildcard with
+    a hardcoded character in query for installed kernel module package is
+    incorrect.
+  * Clean up function which checks status of installed packages.
+
+ -- Kel Modderman <kel@otaku42.de>  Sat, 19 Dec 2009 22:12:21 +1000
 
 dmakms (0.6.5) unstable; urgency=low
 

@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 #
-# Copyright (c) 2008, Kel Modderman <kel@0taku42.de>
+# Copyright (c) 2008 - 2009, Kel Modderman <kel@0taku42.de>
 #
 # An alternative to DKMS <http://linux.dell.com/projects.shtml#dkms>
 # Inspired by discussion at #299727 <http://bugs.debian.org/299727>
@@ -31,9 +31,15 @@ dmakms_check_installed()
 {
 	local query
 	local modvers
-	local pkgvers
+	local modstr
+	local srcvers
+	local srcstr
 
-	query="$(dpkg-query -f '${Status}\n' -W ${1} 2>/dev/null)"
+	srcstr="${1}"
+	modstr="${1%%-source}"
+	modstr="${modstr}*${2}"
+
+	query="$(dpkg-query -f '${Status}\n' -W ${srcstr} 2>/dev/null)"
 
 	case "${query}" in
 		*\ ok\ installed)
@@ -43,7 +49,7 @@ dmakms_check_installed()
 			;;
 	esac
 
-	query="$(dpkg-query -f '${Status}\n' -W ${2}\-${KVER} 2>/dev/null)"
+	query="$(dpkg-query -f '${Status}\n' -W ${modstr} 2>/dev/null)"
 
 	case "${query}" in
 		*\ ok\ installed)
@@ -53,24 +59,12 @@ dmakms_check_installed()
 			;;
 	esac
 
-	pkgvers="$(dpkg-query -f '${Version}\n' -W ${1}          2>/dev/null)"
-	modvers="$(dpkg-query -f '${Version}\n' -W ${2}\*${KVER} 2>/dev/null)"
+	srcvers="$(dpkg-query -f '${Version}\n' -W ${srcstr} 2>/dev/null)"
+	modvers="$(dpkg-query -f '${Version}\n' -W ${modstr} 2>/dev/null)"
+	# Strip off the trailing kernel version added by module assistant
+	modvers="${modvers%%+*}"
 
-	case "${modvers}" in
-		2\.6\.[0-9]*\.rev[0-9]*+*)
-			# debian-kernel
-			modvers="${modvers#*+}"
-			;;
-		*)
-			# modass version
-			modvers="${modvers%%+*}"
-			;;
-	esac
-
-	pkgvers="${pkgvers#*:}"
-	modvers="${modvers#*:}"
-
-	if dpkg --compare-versions "${pkgvers}" gt "${modvers}"; then
+	if dpkg --compare-versions "${srcvers}" gt "${modvers}"; then
 		return 3
 	else
 		return 0
@@ -98,23 +92,6 @@ dmakms_ma_autoinstall()
 		clean,build,install,clean "${1}" >/dev/null 2>&1
 }
 
-if which udevadm >/dev/null; then
-	dmakms_udev_trigger()
-	{
-		udevadm trigger
-	}
-elif which udevtrigger >/dev/null; then
-	dmakms_udev_trigger()
-	{
-		udevtrigger
-	}
-else
-	dmakms_udev_trigger()
-	{
-		:
-	}
-fi
-
 case "${1}" in
 	start)
 		if [ "${#}" -eq 2 ]; then
@@ -131,10 +108,8 @@ case "${1}" in
 			exit 0
 		fi
 
-		for mod in ${MODULES}; do
-			module="${mod%%-source}"
-
-			dmakms_check_installed "${mod}" "${module}"
+		for module in ${MODULES}; do
+			dmakms_check_installed "${module}" "${KVER}"
 			case "${?}" in
 				0)
 					# module-source installed, kernel module installed and up-to-date
@@ -142,7 +117,7 @@ case "${1}" in
 					;;
 				1)
 					# module-source NOT installed
-					log_warning_msg "Skipping ${mod}, package not installed..."
+					log_warning_msg "Skipping ${module}, package not installed..."
 					continue
 					;;
 				2)
@@ -153,18 +128,18 @@ case "${1}" in
 					;;
 				*)
 					# unknow return value
-					log_warning_msg "Skipping ${mod}, dmakms_check_installed failed..."
+					log_warning_msg "Skipping ${module}, dmakms_check_installed failed..."
 					continue
 					;;
 			esac
 
-			log_action_begin_msg "Preparing ${module} module for ${KVER}, please wait"
+			log_action_begin_msg "Preparing ${module} for ${KVER}, please wait"
 
 			if [ "${#}" -eq 2 ]; then
 				# cannot install now, as dpkg/apt may be locked
-				dmakms_ma_build "${mod}"
+				dmakms_ma_build "${module}"
 			else
-				dmakms_ma_autoinstall "${mod}"
+				dmakms_ma_autoinstall "${module}"
 			fi
 
 			if [ "${?}" -ne 0 ]; then
@@ -177,7 +152,7 @@ case "${1}" in
 				# schedule installation for shutdown/reboot
 				mkdir -p /var/run/${NAME}/${KVER}
 			else
-				dmakms_udev_trigger
+				[ -x /sbin/udevadm ] && udevadm trigger
 			fi
 
 			log_action_end_msg 0
@@ -198,11 +173,9 @@ case "${1}" in
 				continue
 			fi
 
-			for mod in ${MODULES}; do
-				module="${mod%%-source}"
-
-				log_action_begin_msg "Installing ${module} module for ${KVER}, please wait"
-				dmakms_ma_install "${mod}"
+			for module in ${MODULES}; do
+				log_action_begin_msg "Preparing ${module} for ${KVER}, please wait"
+				dmakms_ma_install "${module}"
 				log_action_end_msg "${?}"
 			done
 		done

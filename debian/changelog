@@ -1,6 +1,4 @@
-dmakms (0.6.6) UNRELEASED; urgency=low
-
-  DO NOT RELEASE - UNTESTED
+dmakms (0.6.6) unstable; urgency=low
 
   * Remove special handling for backwards Debian conglomerate module package
     versioning - the conglomerate packages no longer exist.

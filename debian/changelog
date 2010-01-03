@@ -1,5 +1,6 @@
 dmakms (0.6.6) unstable; urgency=low
 
+  [ Kel Modderman ]
   * Remove special handling for backwards Debian conglomerate module package
     versioning - the conglomerate packages no longer exist.
   * Remove backwards compat for old udev versions.
@@ -8,6 +9,9 @@ dmakms (0.6.6) unstable; urgency=low
     a hardcoded character in query for installed kernel module package is
     incorrect.
   * Clean up function which checks status of installed packages.
+
+  [ Stefan Lippers-Hollmann ]
+  * bump standards version to 3.8.3, no changes necessary.
 
  -- Kel Modderman <kel@otaku42.de>  Sat, 19 Dec 2009 22:12:21 +1000
 

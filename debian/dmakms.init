@@ -62,7 +62,7 @@ dmakms_check_installed()
 	srcvers="$(dpkg-query -f '${Version}\n' -W ${srcstr} 2>/dev/null)"
 	modvers="$(dpkg-query -f '${Version}\n' -W ${modstr} 2>/dev/null)"
 	# Strip off the trailing kernel version added by module assistant
-	modvers="${modvers%%+*}"
+	modvers="${modvers%+*}"
 
 	if dpkg --compare-versions "${srcvers}" gt "${modvers}"; then
 		return 3

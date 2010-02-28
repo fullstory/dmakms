@@ -1,11 +1,12 @@
-dmakms (0.6.7) UNRELEASED; urgency=low
-
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
+dmakms (0.6.7) unstable; urgency=low
 
   [ Kel Modderman ]
   * Adjust variable substitution pattern to handle module package
     versions with >1 + sign. Thanks Gen on oftc irc network.
+
+  [ Stefan Lippers-Hollmann ]
+  * Switch to dpkg-source 3.0 (native) format.
+  * bump standards version to 3.8.4, no changes necessary.
 
  -- Kel Modderman <kel@otaku42.de>  Sun, 28 Feb 2010 19:40:08 +1000
 

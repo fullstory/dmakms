@@ -3,17 +3,20 @@ Section: misc
 Priority: optional
 Maintainer: Kel Modderman <kel@otaku42.de>
 Uploaders: Stefan Lippers-Hollman <s.l-h@gmx.de>
-Build-Depends: debhelper (>= 7)
-Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
 Vcs-Svn: svn://svn.berlios.de/fullstory/dmakms/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/dmakms/trunk/
 
 Package: dmakms
 Architecture: all
 Depends: ${misc:Depends},
-         module-assistant,
-         build-essential,
-         bzip2
+ module-assistant,
+ build-essential,
+ bzip2
 Description: Dynamic Module-Assistant Kernel Module Support
  This package provides a framework for automatically installing kernel modules
  with module-assistant after each Linux kernel upgrade.
+ .
+ dmakms provides similar functionality to dkms based on top of
+ module-assistant.

@@ -1,8 +1,10 @@
-dmakms (0.6.8) UNRELEASED; urgency=low
+dmakms (0.6.8) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * bump standards version to 3.9.1, no changes necessary.
+  * use simplified dh7 packaging with dh_overrides.
+  * elaborate long description a bit further, to make lintian happy.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 28 Feb 2010 13:51:18 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 03 Aug 2010 17:33:49 +0200
 
 dmakms (0.6.7) unstable; urgency=low
 

@@ -1,3 +1,5 @@
 #!/bin/sh
 
-[ -x /etc/init.d/dmakms ] && /etc/init.d/dmakms start "$1"
+if [ -x /etc/init.d/dmakms ]; then
+	invoke-rc.d dmakms start "$1"
+fi

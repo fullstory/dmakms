@@ -6,8 +6,9 @@ dmakms (0.6.8) unstable; urgency=low
   * fix lintian warnings:
     - dmakms: init.d-script-possible-missing-stop /etc/init.d/dmakms 1
       dmakms can't work in runlevel 1 anyways.
+    - dmakms: script-calls-init-script-directly ./etc/kernel/postinst.d/dmakms
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 03 Aug 2010 17:39:02 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 03 Aug 2010 17:43:19 +0200
 
 dmakms (0.6.7) unstable; urgency=low
 

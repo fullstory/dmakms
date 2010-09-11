@@ -1,3 +1,9 @@
+dmakms (0.6.11) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Aug 2010 01:16:51 +0200
+
 dmakms (0.6.10) unstable; urgency=low
 
   * revert to not calling stop for switching to runlevel 1, as doing so would

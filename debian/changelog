@@ -1,8 +1,10 @@
-dmakms (0.6.10) UNRELEASED; urgency=low
+dmakms (0.6.10) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * revert to not calling stop for switching to runlevel 1, as doing so would
+    try to build pending kernel modules - which must not happen in runlevel 1;
+    add an accoring lintian override.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 08 Aug 2010 03:38:50 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Aug 2010 01:09:40 +0200
 
 dmakms (0.6.9) unstable; urgency=low
 

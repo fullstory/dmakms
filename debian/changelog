@@ -3,8 +3,11 @@ dmakms (0.6.8) unstable; urgency=low
   * bump standards version to 3.9.1, no changes necessary.
   * use simplified dh7 packaging with dh_overrides.
   * elaborate long description a bit further, to make lintian happy.
+  * fix lintian warnings:
+    - dmakms: init.d-script-possible-missing-stop /etc/init.d/dmakms 1
+      dmakms can't work in runlevel 1 anyways.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 03 Aug 2010 17:33:49 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 03 Aug 2010 17:39:02 +0200
 
 dmakms (0.6.7) unstable; urgency=low
 

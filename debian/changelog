@@ -48,7 +48,7 @@ dmakms (0.6.6) unstable; urgency=low
 dmakms (0.6.5) unstable; urgency=low
 
   * it was (re)compiling the module on every boot when the legacy module
-    was installed and deinstalled. (Thanks to Gen) 
+    was installed and deinstalled. (Thanks to Gen)
 
  -- Joaquim Boura <x-un-i@sidux.com>  Sun, 13 Sep 2009 22:50:01 +0200
 

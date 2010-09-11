@@ -1,3 +1,9 @@
+dmakms (0.6.10) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 08 Aug 2010 03:38:50 +0200
+
 dmakms (0.6.9) unstable; urgency=low
 
   * switch to compat level 8.

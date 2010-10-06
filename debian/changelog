@@ -1,8 +1,8 @@
-dmakms (0.6.11) UNRELEASED; urgency=low
+dmakms (0.6.11) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * fix x-un-i's mail address.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 20 Aug 2010 01:16:51 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed, 06 Oct 2010 14:42:08 +0200
 
 dmakms (0.6.10) unstable; urgency=low
 
@@ -64,7 +64,7 @@ dmakms (0.6.5) unstable; urgency=low
   * it was (re)compiling the module on every boot when the legacy module
     was installed and deinstalled. (Thanks to Gen)
 
- -- Joaquim Boura <x-un-i@sidux.com>  Sun, 13 Sep 2009 22:50:01 +0200
+ -- Joaquim Boura <x-un-i@berlios.de>  Sun, 13 Sep 2009 22:50:01 +0200
 
 dmakms (0.6.4) unstable; urgency=low
 

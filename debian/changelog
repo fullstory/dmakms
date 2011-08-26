@@ -1,8 +1,14 @@
 dmakms (0.6.13) UNRELEASED; urgency=low
 
+  [ Stefan Lippers-Hollmann ]
   * NOT RELEASED YET
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 29 Apr 2011 04:14:53 +0200
+  [ Kel Modderman ]
+  * When querying package installation status, consider that multiple
+    lines may be returned for packages which have extra Provides (such
+    as virtualbox).
+
+ -- Kel Modderman <kel@otaku42.de>  Fri, 26 Aug 2011 16:28:24 +1000
 
 dmakms (0.6.12) unstable; urgency=low
 

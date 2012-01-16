@@ -1,3 +1,9 @@
+dmakms (0.6.16) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 01:00:43 +0100
+
 dmakms (0.6.15) unstable; urgency=low
 
   * make lintian a little happier:

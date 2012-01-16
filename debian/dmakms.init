@@ -1,5 +1,4 @@
 #!/bin/sh
-
 ### BEGIN INIT INFO
 # Provides:          dmakms
 # Required-Start:    $remote_fs
@@ -7,6 +6,8 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 6
 # Short-Description: Dynamic Module-Assistant Kernel Module Support
+# Description:       Compile 3rd party kernel modules using module-assistant
+#                    during system boot.
 ### END INIT INFO
 
 #
@@ -185,6 +186,10 @@ case "${1}" in
 	restart|force-reload)
 		echo "Error: argument '${1}' not supported" >&2
 		exit 3
+		;;
+	status)
+		log_success_msg "${0} is no dæmon."
+		exit 0
 		;;
 	*)
 		echo "Usage: ${NAME} {start|stop}" >&2

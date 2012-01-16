@@ -2,8 +2,8 @@ Source: dmakms
 Section: misc
 Priority: optional
 Maintainer: Kel Modderman <kel@otaku42.de>
-Uploaders: Stefan Lippers-Hollman <s.l-h@gmx.de>
-Build-Depends: debhelper (>= 8)
+Uploaders: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Build-Depends: debhelper (>= 9.20120115)
 Standards-Version: 3.9.2
 Vcs-Svn: svn://svn.berlios.de/fullstory/dmakms/trunk
 Vcs-Browser: http://svn.berlios.de/wsvn/fullstory/dmakms/trunk/

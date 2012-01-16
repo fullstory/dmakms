@@ -1,8 +1,18 @@
-dmakms (0.6.14) UNRELEASED; urgency=low
+dmakms (0.6.15) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * make lintian a little happier:
+    - init.d-script-does-not-implement-optional-option
+      etc/init.d/dmakms status
+    - init.d-script-missing-lsb-description etc/init.d/dmakms
+    - init.d-script-possible-missing-stop etc/init.d/dmakms 1
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 26 Aug 2011 11:14:30 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 01:00:13 +0100
+
+dmakms (0.6.14) unstable; urgency=low
+
+  * switch to compat level 9.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 00:51:47 +0100
 
 dmakms (0.6.13) unstable; urgency=low
 

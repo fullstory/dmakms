@@ -1,8 +1,8 @@
-dmakms (0.6.16) UNRELEASED; urgency=low
+dmakms (0.6.16) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * bump standards version to 3.9.3, no changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 16 Jan 2012 01:00:43 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 23 Feb 2012 15:53:46 +0100
 
 dmakms (0.6.15) unstable; urgency=low
 

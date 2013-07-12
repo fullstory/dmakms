@@ -1,0 +1,2 @@
+// install new kernel-module packages at the end of the APT run
+dpkg::post-invoke:: "invoke-rc.d dmakms stop apt || true";

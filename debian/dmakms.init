@@ -81,6 +81,10 @@ dmakms_ma_build()
 
 dmakms_ma_install()
 {
+	# install has zero exit if deb doesn't exist, so check for existence first
+	LANG=C m-a --text-mode --non-inter -l "${KVER}" \
+		list "${1}" 2>/dev/null | \
+		grep -q "^   + (${KVER}): not found\$" && return 29
 	# install only
 	m-a --text-mode --non-inter -l "${KVER}" \
 		install "${1}" >/dev/null 2>&1
@@ -93,10 +97,26 @@ dmakms_ma_autoinstall()
 		clean,build,install,clean "${1}" >/dev/null 2>&1
 }
 
+dmakms_log_failure_buildlog()
+{
+	BUILDLOG="$(ls -t /var/cache/modass/${1}.buildlog.${KVER}.* 2>/dev/null | head -n1)"
+	if [ -n "$BUILDLOG" ]; then
+		log_failure_msg "Building ${1} failed. See ${BUILDLOG} for details."
+	fi
+}
+
+dmakms_triggered_by_kernel_postinst()
+{
+	if [ "${#}" -eq 2 ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 case "${1}" in
 	start)
-		if [ "${#}" -eq 2 ]; then
-			# triggered by /etc/kernel/postinst.d/ script
+		if dmakms_triggered_by_kernel_postinst "$@"; then
 			KVER="${2}"
 		else
 			KVER="$(uname -r)"
@@ -136,8 +156,9 @@ case "${1}" in
 
 			log_action_begin_msg "Preparing ${module} for ${KVER}, please wait"
 
-			if [ "${#}" -eq 2 ]; then
+			if dmakms_triggered_by_kernel_postinst "$@"; then
 				# cannot install now, as dpkg/apt may be locked
+				mkdir -p /var/run/${NAME}/${KVER}
 				dmakms_ma_build "${module}"
 			else
 				dmakms_ma_autoinstall "${module}"
@@ -145,14 +166,15 @@ case "${1}" in
 
 			if [ "${?}" -ne 0 ]; then
 				log_action_end_msg 1
-				log_failure_msg "Module-assistant failed to build/install ${module}..."
+				if dmakms_triggered_by_kernel_postinst "$@"; then
+					dmakms_log_failure_buildlog "${module}"
+				else
+					log_failure_msg "Module-assistant failed to build/install ${module}..."
+				fi
 				continue
 			fi
 
-			if [ "${#}" -eq 2 ]; then
-				# schedule installation for shutdown/reboot
-				mkdir -p /var/run/${NAME}/${KVER}
-			else
+			if ! dmakms_triggered_by_kernel_postinst "$@"; then
 				[ -x /sbin/udevadm ] && udevadm trigger
 			fi
 
@@ -162,10 +184,15 @@ case "${1}" in
 	stop)
 		[ -d /var/run/${NAME} ] || exit 0
 
+		# triggered by APT hook or by shutdown/reboot
+		if [ "$2"  = 'apt' ]; then
+			log_action_msg "Running ${DESC}"
+		else
+			log_action_msg "Stopping ${DESC}"
+		fi
+
 		# Process installation of new kernel module packages built via
 		# /etc/kernel/postinst.d/ script.
-		log_action_msg "Stopping ${DESC}"
-
 		for kvers in /var/run/${NAME}/*; do
 			[ -d "${kvers}" ] || continue
 
@@ -176,8 +203,12 @@ case "${1}" in
 
 			for module in ${MODULES}; do
 				log_action_begin_msg "Preparing ${module} for ${KVER}, please wait"
-				dmakms_ma_install "${module}"
-				log_action_end_msg "${?}"
+				if dmakms_ma_install "${module}"; then
+					log_action_end_msg 0
+				else
+					log_action_end_msg 1
+					dmakms_log_failure_buildlog "${module}"
+				fi
 			done
 		done
 

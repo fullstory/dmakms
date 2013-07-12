@@ -5,8 +5,8 @@ with module-assistant (aka m-a) when upgrading or installing new Linux kernels.
 
 Before activating Dynamic Module-Assistant Kernel Module Support, first use
 module-assistant to install the desired kernel module(s) for the currently
-running Linux kernel. For more information on module-assitant please its manual
-page (hint: type 'man m-a' in a shell). Then add the name of the
+running Linux kernel. For more information on module-assistant please read
+its manual page (hint: type 'man m-a' in a shell). Then add the name of the
 module-assistant compatible package to /etc/default/dmakms, so that the process
 of preparing and installing the same module(s) for each new Linux kernel can
 be automated.
@@ -42,8 +42,8 @@ When a new linux-image Debian package is installed, /etc/init.d/dmakms is
 executed via a postinst hook script with two arguments, 'start' and the version
 string of the Linux kernel to prepare new module package(s) for. At this time,
 the module packages listed in the /etc/default/dmakms configuration file are
-processed with module-assitant, and derived module packages are scheduled for
-installation at shutdown time [0].
+processed with module-assistant, and derived module packages are scheduled for
+installation at the end of the current APT run or at shutdown time [0].
 
-[0] It is necessary to delay the installation until such a time that apt/dpkg
-are not locked by another process.
+[0] It is necessary to delay the installation until (a bit) later as APT/dpkg
+are locked while the postinst hook is executed.

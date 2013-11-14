@@ -1,8 +1,8 @@
-dmakms (0.6.19) UNRELEASED; urgency=low
+dmakms (0.6.19) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * stop hardcoding init sequencing.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 12 Jul 2013 21:14:32 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 14 Nov 2013 19:39:51 +0100
 
 dmakms (0.6.18) unstable; urgency=low
 

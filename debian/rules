@@ -4,7 +4,7 @@
 	dh ${@}
 
 override_dh_installinit:
-	dh_installinit --no-start -- start 05 2 3 4 5 . stop 05 0 6 .
+	dh_installinit --no-start
 	install --mode=755 -D debian/dmakms_kernel_postinst \
 		debian/dmakms/etc/kernel/postinst.d/dmakms
 	install --mode=644 -D debian/dmakms.insserv \

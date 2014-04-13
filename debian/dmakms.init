@@ -11,7 +11,8 @@
 ### END INIT INFO
 
 #
-# Copyright (c) 2008 - 2011, Kel Modderman <kel@0taku42.de>
+# Copyright (C) 2008-2011, Kel Modderman <kel@0taku42.de>
+# Copyright (C) 2008-2014, Stefan Lippers-Hollmann <s.l-h@gmx.de>
 #
 # An alternative to DKMS <http://linux.dell.com/projects.shtml#dkms>
 # Inspired by discussion at #299727 <http://bugs.debian.org/299727>

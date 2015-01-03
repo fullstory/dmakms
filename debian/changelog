@@ -1,8 +1,9 @@
 dmakms (0.6.21) unstable; urgency=medium
 
   * convert to machine readable copyright.
+  * bump standards version to 3.9.6, no changes necessary.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 03 Jan 2015 19:21:53 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 03 Jan 2015 19:22:27 +0100
 
 dmakms (0.6.20) unstable; urgency=low
 

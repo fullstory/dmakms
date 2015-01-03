@@ -1,3 +1,9 @@
+dmakms (0.6.22) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 03 Jan 2015 19:23:09 +0100
+
 dmakms (0.6.21) unstable; urgency=medium
 
   * convert to machine readable copyright.
